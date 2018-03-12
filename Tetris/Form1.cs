@@ -15,7 +15,7 @@ namespace Tetris
             info = new Info();
             board = new Board();
             socket = new SocketManager();
-            
+
         }
         Action action = new Action();
         Block currentBlock;
@@ -29,6 +29,7 @@ namespace Tetris
         private void Form1_Load(object sender, EventArgs e)
         {
             KeyPreview = true;
+
         }
         public void PlayGame(Player player)
         {
@@ -42,7 +43,9 @@ namespace Tetris
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-           
+
+            if (timer1.Enabled == true)/// Để khắc phục lỗi khi ấn phím xóa đổi địa chỉ IP
+            {
                 Block block;
                 action.DeleteBlock(player, currentBlock);
                 switch (e.KeyCode)
@@ -59,15 +62,20 @@ namespace Tetris
                         block = action.MoveDown(player, ref currentBlock);
                         action.DrawBlock(player, block);
                         break;
-                    case Keys.Space:
+                    case Keys.Up:
                         block = action.Rotate(player, ref currentBlock);
                         action.DrawBlock(player, block);
                         break;
-                    default:
+                    case Keys.Space:
+                        MessageBox.Show("ấn sai phím");
                         break;
+                    default://vô hiệu hóa các key còn lại k sẽ bị lỗi
+                        MessageBox.Show("ấn sai phím");
+                        return;
+                        //break;
                 }
+            }
 
-            
         }
         public void DrawInfo(Player player)
         {
@@ -75,7 +83,7 @@ namespace Tetris
             {
                 label1.Text = info.Score.ToString();
                 label2.Text = info.Speed.ToString();
-                label3.Text = info.Level.ToString();  
+                label3.Text = info.Level.ToString();
             }
             else
             {
@@ -88,39 +96,46 @@ namespace Tetris
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
-                action.DeleteBlock(player, currentBlock);
-                action.DrawBlock(player, action.MoveDown(player, ref currentBlock));
-                if (action.ConditionDown(player, currentBlock) == false)
+            action.DeleteBlock(player, currentBlock);
+            action.DrawBlock(player, action.MoveDown(player, ref currentBlock));
+            if (action.ConditionDown(player, currentBlock) == false)
+            {
+                nextnextBlock = action.CreatBlock();
+                action.DrawBlockNext(player, nextnextBlock);
+                action.DrawBlockInMap(player, currentBlock);
+                int kq = action.Check(player, currentBlock, info);
+                if (kq == 0 || kq == -1)
                 {
-                    nextnextBlock = action.CreatBlock();
-                    action.DrawBlockNext(player, nextnextBlock);
-                    action.DrawBlockInMap(player, currentBlock);
-                    int kq = action.Check(player, currentBlock, info);
-                    if (kq == 0 || kq == -1)
-                    {
-                        timer1.Enabled = false;
-                        socket.Send(new SocketData((int)SocketCommand.END_GAME, null, "", 0, 0, 0));
-                    }
-                    DrawInfo(player);
-                    action.DrawBlock(player, currentBlock);
-                    SendData();
-                    currentBlock = nextBlock;
-                    nextBlock = nextnextBlock;
-                    action.Draw(player);
-                    timer1.Interval = info.Speed;
+                    timer1.Enabled = false;
+                    socket.Send(new SocketData((int)SocketCommand.END_GAME, null, "", 0, 0, 0));
                 }
-            
+                DrawInfo(player);
+                action.DrawBlock(player, currentBlock);
+                SendData();
+                currentBlock = nextBlock;
+                nextBlock = nextnextBlock;
+                action.Draw(player);
+                timer1.Interval = info.Speed;
+            }
+
         }
         public void SendData()
         {
-            int[,] arr = action.getMap(player);
-            socket.Send(new SocketData((int)SocketCommand.SEND_DATA, arr, player.Name, info.Level, info.Speed, info.Score));
-            Listen();
+            try
+            {
+                int[,] arr = action.getMap(player);
+                socket.Send(new SocketData((int)SocketCommand.SEND_DATA, arr, player.Name, info.Level, info.Speed, info.Score));
+                Listen();
+            }
+            catch
+            {
+                MessageBox.Show("Kết nối lỗi");
+                return;
+            }
         }
-       public void DrawInfoSend(Player player,SocketData data)
+        public void DrawInfoSend(Player player, SocketData data)
         {
-            if(player.Name == "Player_Server")
+            if (player.Name == "Player_Server")
             {
                 label11.Text = data.Score.ToString();
                 label12.Text = data.Speed.ToString();
@@ -133,7 +148,7 @@ namespace Tetris
                 label3.Text = data.Level.ToString();
             }
         }
-        
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (MessageBox.Show("Bạn có chắc muốn thoát", "Thông báo", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
@@ -144,9 +159,11 @@ namespace Tetris
             {
                 try
                 {
-                    socket.Send(new SocketData((int)SocketCommand.QUIT,null,"",0,0,0));
+                    socket.Send(new SocketData((int)SocketCommand.QUIT, null, "", 0, 0, 0));
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 
@@ -183,7 +200,7 @@ namespace Tetris
                 action.Init(pnlServer);
                 // board.ShowBoard2(pnlClient);
                 pnlClient.BackColor = Color.Gray;
-                lbInfoClient.Text = "Chờ thông tin từ Client";              
+                lbInfoClient.Text = "Chờ thông tin từ Client";
             }
             else
             {
@@ -199,7 +216,7 @@ namespace Tetris
         }
 
         public void Listen()
-        {  
+        {
             Thread listenThread = new Thread(() =>
             {
                 try
@@ -208,13 +225,14 @@ namespace Tetris
                     data = (SocketData)socket.Receive();
                     ProcessData(data);
                 }
-                catch 
+                catch
                 {
-                   
+                    MessageBox.Show("Kết nối lỗi");
+                    return;
                 }
             });
             listenThread.IsBackground = true;
-            listenThread.Start();  
+            listenThread.Start();
         }
         public void ProcessData(SocketData data)
         {
@@ -223,10 +241,10 @@ namespace Tetris
                 case (int)SocketCommand.SEND_DATA:
                     this.Invoke((MethodInvoker)(() =>
                     {
-                    lbInfoClient.Hide();
-                    lbInfoServer.Hide();
-                    DrawInfoSend(player, data);
-                    action.UpdatePanelAfterReceive(data.Name, data.Board, pnlServer,pnlClient);
+                        lbInfoClient.Hide();
+                        lbInfoServer.Hide();
+                        DrawInfoSend(player, data);
+                        action.UpdatePanelAfterReceive(data.Name, data.Board, pnlServer, pnlClient);
                     }));
                     break;
                 case (int)SocketCommand.NEW_GAME:
@@ -247,7 +265,7 @@ namespace Tetris
         private void Form1_Shown(object sender, EventArgs e)
         {
             txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
-            if(string.IsNullOrEmpty(txtIP.Text))
+            if (string.IsNullOrEmpty(txtIP.Text))
             {
                 txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
             }

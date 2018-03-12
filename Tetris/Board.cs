@@ -267,7 +267,7 @@ namespace Tetris
             {
                 for (int j = 0; j < Column1; j++)
                 {
-                    pnl.Controls.Remove(MapServer1[i, j]);
+                    pnl.Controls.Remove(MapClient1[i, j]);
                 }
             }
             point = pnl.Location;

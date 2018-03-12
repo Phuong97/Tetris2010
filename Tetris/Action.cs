@@ -9,8 +9,6 @@ namespace Tetris
         Board board = new Board();
         Info info = new Info();
         Player player;
-
-
         //1. Khoi tao
         public Action()
         {

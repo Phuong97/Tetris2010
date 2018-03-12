@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pnlServer = new System.Windows.Forms.Panel();
+            this.lbInfoServer = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,17 +50,18 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pnlClient = new System.Windows.Forms.Panel();
+            this.lbInfoClient = new System.Windows.Forms.Label();
             this.pnlLogin = new System.Windows.Forms.Panel();
             this.txtIP = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.lbName = new System.Windows.Forms.Label();
-            this.lbInfoClient = new System.Windows.Forms.Label();
-            this.lbInfoServer = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlServer.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlClient.SuspendLayout();
             this.pnlLogin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlServer
@@ -68,9 +71,18 @@
             this.pnlServer.Controls.Add(this.panel3);
             this.pnlServer.Location = new System.Drawing.Point(13, 12);
             this.pnlServer.Name = "pnlServer";
-            this.pnlServer.Size = new System.Drawing.Size(430, 861);
+            this.pnlServer.Size = new System.Drawing.Size(425, 861);
             this.pnlServer.TabIndex = 0;
             this.pnlServer.Visible = false;
+            // 
+            // lbInfoServer
+            // 
+            this.lbInfoServer.AutoSize = true;
+            this.lbInfoServer.Location = new System.Drawing.Point(200, 303);
+            this.lbInfoServer.Name = "lbInfoServer";
+            this.lbInfoServer.Size = new System.Drawing.Size(0, 17);
+            this.lbInfoServer.TabIndex = 7;
+            this.lbInfoServer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
             // 
@@ -242,6 +254,15 @@
             this.pnlClient.TabIndex = 6;
             this.pnlClient.Visible = false;
             // 
+            // lbInfoClient
+            // 
+            this.lbInfoClient.AutoSize = true;
+            this.lbInfoClient.Location = new System.Drawing.Point(158, 290);
+            this.lbInfoClient.Name = "lbInfoClient";
+            this.lbInfoClient.Size = new System.Drawing.Size(0, 17);
+            this.lbInfoClient.TabIndex = 6;
+            this.lbInfoClient.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pnlLogin
             // 
             this.pnlLogin.Controls.Add(this.txtIP);
@@ -261,11 +282,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(55, 94);
+            this.button1.Location = new System.Drawing.Point(36, 97);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 28);
+            this.button1.Size = new System.Drawing.Size(111, 28);
             this.button1.TabIndex = 6;
-            this.button1.Text = "LAN";
+            this.button1.Text = "CONNECT";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -279,23 +300,16 @@
             this.lbName.TabIndex = 8;
             this.lbName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbInfoClient
+            // pictureBox1
             // 
-            this.lbInfoClient.AutoSize = true;
-            this.lbInfoClient.Location = new System.Drawing.Point(158, 290);
-            this.lbInfoClient.Name = "lbInfoClient";
-            this.lbInfoClient.Size = new System.Drawing.Size(0, 17);
-            this.lbInfoClient.TabIndex = 6;
-            this.lbInfoClient.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbInfoServer
-            // 
-            this.lbInfoServer.AutoSize = true;
-            this.lbInfoServer.Location = new System.Drawing.Point(200, 303);
-            this.lbInfoServer.Name = "lbInfoServer";
-            this.lbInfoServer.Size = new System.Drawing.Size(0, 17);
-            this.lbInfoServer.TabIndex = 7;
-            this.lbInfoServer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(439, 410);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(205, 346);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
@@ -303,6 +317,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1097, 966);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lbName);
             this.Controls.Add(this.pnlLogin);
             this.Controls.Add(this.pnlClient);
@@ -325,6 +340,7 @@
             this.pnlClient.PerformLayout();
             this.pnlLogin.ResumeLayout(false);
             this.pnlLogin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -356,6 +372,7 @@
         private System.Windows.Forms.Label lbName;
         private System.Windows.Forms.Label lbInfoClient;
         private System.Windows.Forms.Label lbInfoServer;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

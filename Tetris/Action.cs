@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Tetris
@@ -124,7 +123,7 @@ namespace Tetris
             if (player.Name == "Player_Server")
             {
                 for (int i = 4; i < board.Row1; i++) // Bắt đầu từ 4 để không bị mất ở ô hiện trước panel 2
-                                                    //4 dòng đầu để hiện trước
+                                                     //4 dòng đầu để hiện trước
                 {
                     for (int j = 0; j < board.Column1; j++)
                     {
@@ -478,9 +477,14 @@ namespace Tetris
         }
 
         //DRAW AFTER SENDDATA
-        public void UpdatePanelAfterReceive(string name, int [,]arr,Panel pnls,Panel pnlc)
+        public void UpdatePanelAfterReceive(string name, int[,] arr, Panel pnls, Panel pnlc)
         {
             board.UpdatePanelAfterReceive(name, arr, pnls, pnlc);
+        }
+
+        public void DrawBlockSend(string playerName, int[,] arr, Panel pnls, Panel pnlc)
+        {
+            board.DrawBlockSend(playerName, arr, pnls, pnlc);
         }
     }
 

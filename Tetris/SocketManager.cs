@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tetris
 {
@@ -42,14 +38,14 @@ namespace Tetris
             server.Bind(iep);
             server.Listen(10);
 
-        Thread acceptClient = new Thread(() =>
-        { 
-             client = server.Accept();
-           
-        });
+            Thread acceptClient = new Thread(() =>
+            {
+                client = server.Accept();
+
+            });
             acceptClient.IsBackground = true;
             acceptClient.Start();
-           
+
         }
         #endregion
 
@@ -62,7 +58,7 @@ namespace Tetris
         public bool Send(object data)
         {
             byte[] sendData = SerializeData(data);
-            return SendData(client, sendData); 
+            return SendData(client, sendData);
         }
         public object Receive()
         {
@@ -92,6 +88,7 @@ namespace Tetris
             bf1.Serialize(ms, o);
             return ms.ToArray();
         }
+
 
         /// <summary>
         /// Giải nén mảng byte[] thành đối tượng object
@@ -130,6 +127,10 @@ namespace Tetris
             return output;
         }
 
+        public void Close()
+        {
+            client.Close();
+        }
         #endregion
     }
 }

@@ -107,12 +107,12 @@ namespace Tetris
                 if (kq == 0 || kq == -1)
                 {
                     timer1.Enabled = false;
-                    socket.Send(new SocketData((int)SocketCommand.END_GAME, null, "", 0, 0, 0));
+                    socket.Send(new SocketData((int)SocketCommand.END_GAME, null, null, "", 0, 0, 0));
                 }
                 DrawInfo(player);
                 action.DrawBlock(player, currentBlock);
-                SendData();
                 currentBlock = nextBlock;
+                SendData();
                 nextBlock = nextnextBlock;
                 action.Draw(player);
                 timer1.Interval = info.Speed;
@@ -124,12 +124,13 @@ namespace Tetris
             try
             {
                 int[,] arr = action.getMap(player);
-                socket.Send(new SocketData((int)SocketCommand.SEND_DATA, arr, player.Name, info.Level, info.Speed, info.Score));
+                socket.Send(new SocketData((int)SocketCommand.SEND_DATA, arr, currentBlock.Arr, player.Name, info.Level, info.Speed, info.Score));
                 Listen();
             }
             catch
             {
-                MessageBox.Show("Kết nối lỗi");
+                timer1.Enabled = false;
+                MessageBox.Show("Lỗi kết nối");
                 return;
             }
         }
@@ -159,7 +160,7 @@ namespace Tetris
             {
                 try
                 {
-                    socket.Send(new SocketData((int)SocketCommand.QUIT, null, "", 0, 0, 0));
+                    socket.Send(new SocketData((int)SocketCommand.QUIT, null, null, "", 0, 0, 0));
                 }
                 catch
                 {
@@ -174,7 +175,7 @@ namespace Tetris
         /// <param name="e"></param>
         /// 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)//button Connect
         {
             socket.IP = txtIP.Text.Trim();
             if (!socket.ConnectServer())
@@ -182,6 +183,7 @@ namespace Tetris
                 socket.CreateServer();
                 pnlServer.Visible = true;
                 pnlClient.Visible = true;
+                pnlServerInClient.Visible = false;
                 pnlLogin.Visible = false;
                 socket.isServer = true;
             }
@@ -189,6 +191,7 @@ namespace Tetris
             {
                 pnlServer.Visible = true;
                 pnlClient.Visible = true;
+                pnlClientInServer.Visible = false;
                 pnlLogin.Visible = false;
                 socket.isServer = false;
                 Listen();
@@ -227,8 +230,6 @@ namespace Tetris
                 }
                 catch
                 {
-                    MessageBox.Show("Kết nối lỗi");
-                    return;
                 }
             });
             listenThread.IsBackground = true;
@@ -244,17 +245,21 @@ namespace Tetris
                         lbInfoClient.Hide();
                         lbInfoServer.Hide();
                         DrawInfoSend(player, data);
+                        action.DrawBlockSend(data.Name, data.Block, pnlServerInClient, pnlClientInServer);
                         action.UpdatePanelAfterReceive(data.Name, data.Board, pnlServer, pnlClient);
                     }));
                     break;
                 case (int)SocketCommand.NEW_GAME:
                     break;
                 case (int)SocketCommand.PAUSE:
+                    timer1.Enabled = !timer1.Enabled;
                     break;
                 case (int)SocketCommand.QUIT:
+                    timer1.Enabled = false;
                     MessageBox.Show("Người chơi cùng đã thoát");
                     break;
                 case (int)SocketCommand.END_GAME:
+                    timer1.Enabled = false;
                     MessageBox.Show("Người chơi cùng đã thua .Kết thúc game.");
                     break;
 
@@ -269,6 +274,29 @@ namespace Tetris
             {
                 txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
             }
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            socket.Send(new SocketData((int)SocketCommand.PAUSE, null, null, "", 0, 0, 0));
+            timer1.Enabled = !timer1.Enabled;
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        public void NewGame()
+        {
+            pnlClient.Controls.Clear();
+            pnlServer.Controls.Clear();
+            action.Init(pnlServer);
+            action.Init(pnlClient);
+
+        }
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame();
         }
     }
 }

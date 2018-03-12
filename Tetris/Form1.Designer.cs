@@ -56,22 +56,31 @@
             this.button1 = new System.Windows.Forms.Button();
             this.lbName = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlClientInServer = new System.Windows.Forms.Panel();
+            this.pnlServerInClient = new System.Windows.Forms.Panel();
             this.pnlServer.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlClient.SuspendLayout();
             this.pnlLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlServer
             // 
             this.pnlServer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlServer.Controls.Add(this.pnlServerInClient);
             this.pnlServer.Controls.Add(this.lbInfoServer);
             this.pnlServer.Controls.Add(this.panel3);
-            this.pnlServer.Location = new System.Drawing.Point(13, 12);
+            this.pnlServer.Location = new System.Drawing.Point(13, 57);
             this.pnlServer.Name = "pnlServer";
-            this.pnlServer.Size = new System.Drawing.Size(425, 861);
+            this.pnlServer.Size = new System.Drawing.Size(425, 888);
             this.pnlServer.TabIndex = 0;
             this.pnlServer.Visible = false;
             // 
@@ -246,11 +255,12 @@
             // pnlClient
             // 
             this.pnlClient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlClient.Controls.Add(this.pnlClientInServer);
             this.pnlClient.Controls.Add(this.lbInfoClient);
             this.pnlClient.Controls.Add(this.panel2);
-            this.pnlClient.Location = new System.Drawing.Point(650, 12);
+            this.pnlClient.Location = new System.Drawing.Point(650, 57);
             this.pnlClient.Name = "pnlClient";
-            this.pnlClient.Size = new System.Drawing.Size(430, 861);
+            this.pnlClient.Size = new System.Drawing.Size(430, 888);
             this.pnlClient.TabIndex = 6;
             this.pnlClient.Visible = false;
             // 
@@ -311,21 +321,84 @@
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1097, 28);
+            this.menuStrip1.TabIndex = 10;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.quitToolStripMenuItem,
+            this.pauseToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+            this.menuToolStripMenuItem.Text = "Menu";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // pauseToolStripMenuItem
+            // 
+            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
+            // pnlClientInServer
+            // 
+            this.pnlClientInServer.AccessibleDescription = "";
+            this.pnlClientInServer.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.pnlClientInServer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlClientInServer.Location = new System.Drawing.Point(3, 3);
+            this.pnlClientInServer.Name = "pnlClientInServer";
+            this.pnlClientInServer.Size = new System.Drawing.Size(159, 136);
+            this.pnlClientInServer.TabIndex = 7;
+            // 
+            // pnlServerInClient
+            // 
+            this.pnlServerInClient.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.pnlServerInClient.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlServerInClient.Location = new System.Drawing.Point(3, 3);
+            this.pnlServerInClient.Name = "pnlServerInClient";
+            this.pnlServerInClient.Size = new System.Drawing.Size(159, 136);
+            this.pnlServerInClient.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1097, 966);
+            this.ClientSize = new System.Drawing.Size(1097, 985);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lbName);
             this.Controls.Add(this.pnlLogin);
             this.Controls.Add(this.pnlClient);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlServer);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
@@ -341,7 +414,10 @@
             this.pnlLogin.ResumeLayout(false);
             this.pnlLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -373,6 +449,13 @@
         private System.Windows.Forms.Label lbInfoClient;
         private System.Windows.Forms.Label lbInfoServer;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
+        private System.Windows.Forms.Panel pnlServerInClient;
+        private System.Windows.Forms.Panel pnlClientInServer;
     }
 }
 

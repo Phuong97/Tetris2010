@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Tetris
 {
@@ -10,7 +9,7 @@ namespace Tetris
         public string Name { get => name; set => name = value; }
         public Panel Panel { get => panel; set => panel = value; }
 
-        public Player(string name,Panel panel)
+        public Player(string name, Panel panel)
         {
             this.Name = name;
             this.Panel = panel;

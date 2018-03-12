@@ -18,7 +18,7 @@ namespace Tetris
         public Label[,] MapServer1 { get => MapServer; set => MapServer = value; }
         public int Column1 { get => Column; set => Column = value; }
         public int Row1 { get => Row; set => Row = value; }
-        public int[,] MapPlayClient1 { get => MapPlayClient; set => MapPlayClient = value; }
+        public int[,] MapPlayClient1 { get => MapPlayClient; set => MapPlayClient = value; } //lưu giá trị 1 0
         public Label[,] MapClient1 { get => MapClient; set => MapClient = value; }
         public int[,] MapPlayServer1 { get => MapPlayServer; set => MapPlayServer = value; }
 
@@ -34,6 +34,7 @@ namespace Tetris
             MapPlayClient1 = new int[Row1, Column1];
             MapPlayServer1 = new int[Row1, Column1];
         }
+
         public void DeleteNextBlock(Player player)
         {
             if (player.Name == "Player_Server")
@@ -59,9 +60,10 @@ namespace Tetris
                 }
             }
         }
+
+
         public void DrawBlockNext(Player player, Block block) // vẽ luôn trên panel hoặc panel mới
         {
-
             DeleteNextBlock(player);
             if (player.Name == "Player_Server")
             {
@@ -105,6 +107,7 @@ namespace Tetris
             }
         }
 
+        //Vẽ block
         public void DrawBlock(Player player, Block block)
         {
             if (player.Name == "Player_Server")
@@ -136,12 +139,13 @@ namespace Tetris
         }
         int x, y;
         Point point;
+        // Vẽ bảng mặc định khởi tạo 1 lần duy nhất
         public void DrawBoard(Panel panel)
         {
- 
+
             point = panel.Location;
             x = point.X + 5;
-            y = point.Y - 30;
+            y = point.Y - 20;
             for (int i = 0; i < Row1; i++)
             {
                 y += 30;
@@ -176,7 +180,7 @@ namespace Tetris
         {
             point = pnl.Location;
             x = xtemp = point.X - 480;
-            y = point.Y -30;
+            y = point.Y - 20;
 
             for (int i = 0; i < 22; i++)
             {
@@ -206,12 +210,13 @@ namespace Tetris
             }
 
         }
-     
-    
-        //SHOW//
-        public void ShowBoard1(Panel panel , int[,] arr)
+
+
+        //SHOW// 2 người chơi show 2 cái kkhac nhau
+        public void ShowBoard1(Panel panel, int[,] arr)//Xóa các control và vẽ lại sau mỗi lần cập nhập
         {
             //xóa cũ tạo mới.
+            //panel.Controls.Clear();
             for (int i = 4; i < Row1; i++)
             {
                 for (int j = 0; j < Column1; j++)
@@ -219,11 +224,9 @@ namespace Tetris
                     panel.Controls.Remove(MapServer1[i, j]);
                 }
             }
-
-                //panel.Controls.Clear();
             point = panel.Location;
             x = point.X + 5;
-            y = point.Y + 90;
+            y = point.Y + 85;
             for (int i = 4; i < Row1; i++)
             {
                 y += 30;
@@ -234,10 +237,10 @@ namespace Tetris
                     MapServer1[i, j] = new Label();
                     MapServer1[i, j].Location = point;
                     MapServer1[i, j].Width = MapServer1[i, j].Height = 30;
-                   // MapPlayServer1[i, j] = 0;
+                    // MapPlayServer1[i, j] = 0;
                     if (arr[i, j] == 0)
                     {
-                        
+
                         if (j % 2 == 0)
                         {
                             MapServer1[i, j].BackColor = Color.Silver;
@@ -263,7 +266,7 @@ namespace Tetris
         public void ShowBoard2(Panel pnl, int[,] arr)
         {
             //pnl.Controls.Clear();
-            for (int i = 4; i < Row1; i++)
+            for (int i = 4; i < Row1; i++) //Xóa các control và vẽ lại sau mỗi lần cập nhập
             {
                 for (int j = 0; j < Column1; j++)
                 {
@@ -272,8 +275,7 @@ namespace Tetris
             }
             point = pnl.Location;
             x = xtemp = point.X - 480;
-            y = point.Y + 90;
-
+            y = point.Y + 85;
             for (int i = 4; i < 22; i++)
             {
                 y += 30;
@@ -312,17 +314,85 @@ namespace Tetris
         }
 
         //==========SOCKET===============//
-        public void UpdatePanelAfterReceive(string playerName, int[,] arr,Panel pnls,Panel pnlc)
+        public void UpdatePanelAfterReceive(string playerName, int[,] arr, Panel pnls, Panel pnlc)
         {
             if (playerName == "Player_Server")
             {
                 pnls.BackColor = Color.White;
-                ShowBoard1(pnls,arr);
+                ShowBoard1(pnls, arr); //show thông tin nhận đc từ phía playerName
             }
             else
             {
                 pnlc.BackColor = Color.White;
-                ShowBoard2(pnlc,arr); 
+                ShowBoard2(pnlc, arr);
+            }
+        }
+
+        // Vẽ block Send 
+        public void DrawBlockSend(string playerName, int[,] arr, Panel pnls, Panel pnlc)
+        {
+            pnlc.Controls.Clear(); // Xóa các control hiện tại để tạo control mới
+            pnls.Controls.Clear();
+            int r = arr.GetLength(0);
+            int c = arr.GetLength(1);
+            Label[,] block = new Label[r, c];
+            if (playerName == "Player_Server") //nếu nhận được thông tin gửi từ server thì vẽ 
+            {                               //panel server trên client và ngc lại
+                point = pnls.Location;
+                x = point.X; // xác định vị trí
+                y = point.Y;
+                for (int i = 0; i < arr.GetLength(0); i++)
+                {
+                    y += 30;
+                    x = 9;
+                    for (int j = 0; j < arr.GetLength(1); j++)
+                    {
+                        point = new Point(x, y);
+                        block[i, j] = new Label();
+                        block[i, j].Location = point;
+                        block[i, j].Width = block[i, j].Height = 30;
+                        if (arr[i, j] == 1)
+                        {
+                            block[i, j].BackColor = Color.Red;
+                            pnls.Controls.Add(block[i, j]);
+                        }
+                        else
+                        {
+                            block[i, j].BackColor = Color.White;
+                            pnls.Controls.Add(block[i, j]);
+                        }
+                        x += 30;
+                    }
+                }
+            }
+            else
+            {
+                point = pnlc.Location;
+                x = xtemp = point.X - 480;
+                y = point.Y - 20;
+                for (int i = 0; i < arr.GetLength(0); i++)
+                {
+                    y += 30;
+                    x = 9;
+                    for (int j = 0; j < arr.GetLength(1); j++)
+                    {
+                        point = new Point(x, y);
+                        block[i, j] = new Label();
+                        block[i, j].Location = point;
+                        block[i, j].Width = block[i, j].Height = 30;
+                        if (arr[i, j] == 1)
+                        {
+                            block[i, j].BackColor = Color.Red;
+                            pnlc.Controls.Add(block[i, j]);
+                        }
+                        else
+                        {
+                            block[i, j].BackColor = Color.White;
+                            pnlc.Controls.Add(block[i, j]);
+                        }
+                        x += 30;
+                    }
+                }
             }
         }
 

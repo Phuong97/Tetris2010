@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Tetris
@@ -14,7 +11,7 @@ namespace Tetris
         [STAThread]
         static void Main()
         {
-            SocketManager socket = new SocketManager() ;
+            SocketManager socket = new SocketManager();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

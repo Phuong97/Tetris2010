@@ -1,0 +1,10 @@
+F:\LTM\Tetris_OOP\Tetris\Tetris\bin\Release\Tetris.exe.config
+F:\LTM\Tetris_OOP\Tetris\Tetris\bin\Release\Tetris.exe
+F:\LTM\Tetris_OOP\Tetris\Tetris\bin\Release\Tetris.pdb
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.Form1.resources
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.FrmLogin.resources
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.Properties.Resources.resources
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.csproj.GenerateResource.Cache
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.csproj.CoreCompileInputs.cache
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.exe
+F:\LTM\Tetris_OOP\Tetris\Tetris\obj\Release\Tetris.pdb

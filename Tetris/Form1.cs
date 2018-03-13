@@ -29,7 +29,6 @@ namespace Tetris
         private void Form1_Load(object sender, EventArgs e)
         {
             KeyPreview = true;
-
         }
         public void PlayGame(Player player)
         {
@@ -43,7 +42,6 @@ namespace Tetris
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-
             if (timer1.Enabled == true)/// Để khắc phục lỗi khi ấn phím xóa đổi địa chỉ IP
             {
                 Block block;
@@ -70,13 +68,12 @@ namespace Tetris
                         MessageBox.Show("ấn sai phím");
                         break;
                     default://vô hiệu hóa các key còn lại k sẽ bị lỗi
-                        MessageBox.Show("ấn sai phím");
-                        return;
-                        //break;
+                        //MessageBox.Show("ấn sai phím");
+                        break;
                 }
             }
-
         }
+
         public void DrawInfo(Player player)
         {
             if (player.Name == "Player_Server")
@@ -117,8 +114,8 @@ namespace Tetris
                 action.Draw(player);
                 timer1.Interval = info.Speed;
             }
-
         }
+
         public void SendData()
         {
             try
@@ -134,6 +131,7 @@ namespace Tetris
                 return;
             }
         }
+
         public void DrawInfoSend(Player player, SocketData data)
         {
             if (player.Name == "Player_Server")
@@ -235,6 +233,7 @@ namespace Tetris
             listenThread.IsBackground = true;
             listenThread.Start();
         }
+
         public void ProcessData(SocketData data)
         {
             switch (data.Command)
@@ -250,9 +249,16 @@ namespace Tetris
                     }));
                     break;
                 case (int)SocketCommand.NEW_GAME:
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                         NewGame();
+                    }));
                     break;
                 case (int)SocketCommand.PAUSE:
-                    timer1.Enabled = !timer1.Enabled;
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                    Pause();
+                    }));
                     break;
                 case (int)SocketCommand.QUIT:
                     timer1.Enabled = false;
@@ -262,7 +268,6 @@ namespace Tetris
                     timer1.Enabled = false;
                     MessageBox.Show("Người chơi cùng đã thua .Kết thúc game.");
                     break;
-
             }
             Listen();
         }
@@ -275,11 +280,15 @@ namespace Tetris
                 txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
             }
         }
+        public void Pause()
+        {
+            timer1.Enabled = !timer1.Enabled;
+        }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Pause();
             socket.Send(new SocketData((int)SocketCommand.PAUSE, null, null, "", 0, 0, 0));
-            timer1.Enabled = !timer1.Enabled;
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -288,15 +297,32 @@ namespace Tetris
         }
         public void NewGame()
         {
-            pnlClient.Controls.Clear();
-            pnlServer.Controls.Clear();
-            action.Init(pnlServer);
-            action.Init(pnlClient);
-
+            int[,] arr = new int[22, 10];
+            timer1.Interval = 900;
+            timer1.Enabled = false;
+            DrawInfo(player);  
+            action.ResetBoard(player);
+            Thread.Sleep(1000);
+            PlayGame(player);
+            timer1.Enabled = true;
+            if(player.Name == "Player_Server")
+            {
+                pnlClient.BackColor = Color.Gray;
+                action.UpdatePanelAfterReceive("Player_Client", arr, pnlServer, pnlClient);
+                lbInfoClient.Show();
+            }
+            else
+            {
+                pnlServer.BackColor = Color.Gray;
+                action.UpdatePanelAfterReceive("Player_Server", arr, pnlServer, pnlClient);
+                lbInfoServer.Show();
+            }
+           
         }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewGame();
+            socket.Send(new SocketData((int)SocketCommand.NEW_GAME, null, null, "", 0, 0, 0));
         }
     }
 }

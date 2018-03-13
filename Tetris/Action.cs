@@ -486,6 +486,11 @@ namespace Tetris
         {
             board.DrawBlockSend(playerName, arr, pnls, pnlc);
         }
-    }
 
+        public void ResetBoard(Player player)
+        {
+            board.ResetBoard(player);
+        }
+
+    }
 }

@@ -10,18 +10,19 @@ namespace Tetris
         public FrmLogin()
         { 
             InitializeComponent();
-            //Control.CheckForIllegalCrossThreadCalls = false;
-        }
-        
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
-        
-       
-        private void FrmLogin_Load(object sender, EventArgs e)
-        {
             
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.progressBar1.Increment(1);
+            if(progressBar1.Value == progressBar1.Maximum)
+            {
+                this.Hide();
+                timer1.Enabled = false;
+                Form1 f = new Form1();
+                f.Show();
+            }
         }
     }
 }

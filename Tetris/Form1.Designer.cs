@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pnlServer = new System.Windows.Forms.Panel();
+            this.pnlServerInClient = new System.Windows.Forms.Panel();
             this.lbInfoServer = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
@@ -50,6 +51,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pnlClient = new System.Windows.Forms.Panel();
+            this.pnlClientInServer = new System.Windows.Forms.Panel();
             this.lbInfoClient = new System.Windows.Forms.Label();
             this.pnlLogin = new System.Windows.Forms.Panel();
             this.txtIP = new System.Windows.Forms.TextBox();
@@ -61,8 +63,6 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlClientInServer = new System.Windows.Forms.Panel();
-            this.pnlServerInClient = new System.Windows.Forms.Panel();
             this.pnlServer.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -83,6 +83,15 @@
             this.pnlServer.Size = new System.Drawing.Size(425, 888);
             this.pnlServer.TabIndex = 0;
             this.pnlServer.Visible = false;
+            // 
+            // pnlServerInClient
+            // 
+            this.pnlServerInClient.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.pnlServerInClient.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlServerInClient.Location = new System.Drawing.Point(3, 3);
+            this.pnlServerInClient.Name = "pnlServerInClient";
+            this.pnlServerInClient.Size = new System.Drawing.Size(159, 136);
+            this.pnlServerInClient.TabIndex = 8;
             // 
             // lbInfoServer
             // 
@@ -264,6 +273,16 @@
             this.pnlClient.TabIndex = 6;
             this.pnlClient.Visible = false;
             // 
+            // pnlClientInServer
+            // 
+            this.pnlClientInServer.AccessibleDescription = "";
+            this.pnlClientInServer.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.pnlClientInServer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlClientInServer.Location = new System.Drawing.Point(3, 3);
+            this.pnlClientInServer.Name = "pnlClientInServer";
+            this.pnlClientInServer.Size = new System.Drawing.Size(159, 136);
+            this.pnlClientInServer.TabIndex = 7;
+            // 
             // lbInfoClient
             // 
             this.lbInfoClient.AutoSize = true;
@@ -345,6 +364,7 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
@@ -352,6 +372,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
@@ -359,28 +380,10 @@
             // pauseToolStripMenuItem
             // 
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.pauseToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.pauseToolStripMenuItem.Text = "Pause";
             this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
-            // 
-            // pnlClientInServer
-            // 
-            this.pnlClientInServer.AccessibleDescription = "";
-            this.pnlClientInServer.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.pnlClientInServer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlClientInServer.Location = new System.Drawing.Point(3, 3);
-            this.pnlClientInServer.Name = "pnlClientInServer";
-            this.pnlClientInServer.Size = new System.Drawing.Size(159, 136);
-            this.pnlClientInServer.TabIndex = 7;
-            // 
-            // pnlServerInClient
-            // 
-            this.pnlServerInClient.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.pnlServerInClient.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlServerInClient.Location = new System.Drawing.Point(3, 3);
-            this.pnlServerInClient.Name = "pnlServerInClient";
-            this.pnlServerInClient.Size = new System.Drawing.Size(159, 136);
-            this.pnlServerInClient.TabIndex = 8;
             // 
             // Form1
             // 

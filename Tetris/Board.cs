@@ -142,9 +142,8 @@ namespace Tetris
         // Vẽ bảng mặc định khởi tạo 1 lần duy nhất
         public void DrawBoard(Panel panel)
         {
-
             point = panel.Location;
-            x = point.X + 5;
+            x = point.X - 17;
             y = point.Y - 20;
             for (int i = 0; i < Row1; i++)
             {
@@ -179,7 +178,7 @@ namespace Tetris
         public void DrawBoard2(Panel pnl)
         {
             point = pnl.Location;
-            x = xtemp = point.X - 480;
+            x = xtemp = point.X - 490;
             y = point.Y - 20;
 
             for (int i = 0; i < 22; i++)
@@ -225,7 +224,7 @@ namespace Tetris
                 }
             }
             point = panel.Location;
-            x = point.X + 5;
+            x = point.X - 20;
             y = point.Y + 85;
             for (int i = 4; i < Row1; i++)
             {
@@ -262,6 +261,60 @@ namespace Tetris
             }
         }
 
+        public void ResetBoard(Player player)
+        {
+
+            if (player.Name == "Player_Server")
+            {
+                for (int i = 0; i < 4; i++) //Xóa các control và vẽ lại sau mỗi lần cập nhập
+                {
+                    for (int j = 0; j < Column1; j++)
+                    {
+                        MapServer1[i, j].Hide();
+                    }
+                }
+                for (int i = 0; i < Row1; i++) //Xóa các control và vẽ lại sau mỗi lần cập nhập
+                {
+                    for (int j = 0; j < Column1; j++)
+                    {
+                        MapPlayServer1[i, j] = 0;
+                        if (j % 2 == 0)
+                        {
+                            MapServer1[i, j].BackColor = Color.Silver;
+                        }
+                        else
+                        {
+                            MapServer1[i, j].BackColor = Color.LightGray;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++) //Xóa các control và vẽ lại sau mỗi lần cập nhập
+                {
+                    for (int j = 0; j < Column1; j++)
+                    {
+                        MapClient1[i, j].Hide();
+                    }
+                }
+                for (int i = 4; i < Row1; i++) //Xóa các control và vẽ lại sau mỗi lần cập nhập
+                {
+                    for (int j = 0; j < Column1; j++)
+                    {
+                        MapPlayClient1[i, j] = 0;
+                        if (j % 2 == 0)
+                        {
+                            MapClient1[i, j].BackColor = Color.Silver;
+                        }
+                        else
+                        {
+                            MapClient1[i, j].BackColor = Color.LightGray;
+                        }
+                    }
+                }
+            }
+        }
 
         public void ShowBoard2(Panel pnl, int[,] arr)
         {

@@ -6,25 +6,48 @@ namespace Tetris
     public class SocketData
     {
         private int[,] Arrboard; //mảng ma trận kết quả
-        private int[,] block; // từng block
-        private string name; // tên người chơi hiện tại
-        private int speed;
-        private int level;
-        private int score;
-        private int command;
 
+        public int[,] Board
+        {
+            get { return Arrboard; }
+            set { Arrboard = value; }
+        }
+        private int[,] block; // từng block
+        public int[,] Block
+        {
+            get { return block; }
+            set { block = value; }
+        }
+        private string name; // tên người chơi hiện tại
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        private int speed;
+        public int Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
+        private int level;
+        public int Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+        private int score;
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
+        private int command;
         public int Command
         {
             get { return command; }
             set { command = value; }
         }
-        public int[,] Board { get => Arrboard; set => Arrboard = value; }
-        public int Speed { get => speed; set => speed = value; }
-        public int Level { get => level; set => level = value; }
-        public int Score { get => score; set => score = value; }
-        public string Name { get => name; set => name = value; }
-        public int[,] Block { get => block; set => block = value; }
-
         public SocketData(int command, int[,] board, int[,] block, string name, int level, int speed, int score)//
         {
             this.Command = command;
@@ -39,11 +62,12 @@ namespace Tetris
     }
     public enum SocketCommand
     {
+        MODETIME,
+        MODECLASSIC,
         SEND_DATA,
         NEW_GAME,
         PAUSE,
         QUIT,
         END_GAME
     }
-
 }

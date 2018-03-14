@@ -5,25 +5,55 @@ namespace Tetris
 {
     public class Board
     {
-        //Attribute
+        /// <summary>
+        /// Khai báo biến
+        /// </summary>
+        #region
         private int Row;
+
+        public int Row1
+        {
+            get { return Row; }
+            set { Row = value; }
+        }
         private int Column;
+
+        public int Column1
+        {
+            get { return Column; }
+            set { Column = value; }
+        }
         private Label[,] MapServer;
+
+        public Label[,] MapServer1
+        {
+            get { return MapServer; }
+            set { MapServer = value; }
+        }
         private Label[,] MapClient;
+
+        public Label[,] MapClient1
+        {
+            get { return MapClient; }
+            set { MapClient = value; }
+        }
         private int[,] MapPlayClient;
+
+        public int[,] MapPlayClient1
+        {
+            get { return MapPlayClient; }
+            set { MapPlayClient = value; }
+        }
         private int[,] MapPlayServer;
 
-
-        //Property
-        public Label[,] MapServer1 { get => MapServer; set => MapServer = value; }
-        public int Column1 { get => Column; set => Column = value; }
-        public int Row1 { get => Row; set => Row = value; }
-        public int[,] MapPlayClient1 { get => MapPlayClient; set => MapPlayClient = value; } //lưu giá trị 1 0
-        public Label[,] MapClient1 { get => MapClient; set => MapClient = value; }
-        public int[,] MapPlayServer1 { get => MapPlayServer; set => MapPlayServer = value; }
+        public int[,] MapPlayServer1
+        {
+            get { return MapPlayServer; }
+            set { MapPlayServer = value; }
+        }
 
 
-
+        #endregion
         //Constructor
         public Board()
         {
@@ -143,8 +173,7 @@ namespace Tetris
         public void DrawBoard(Panel panel)
         {
             point = panel.Location;
-            x = point.X - 17;
-            y = point.Y - 20;
+            y = point.Y - 60;
             for (int i = 0; i < Row1; i++)
             {
                 y += 30;
@@ -179,7 +208,7 @@ namespace Tetris
         {
             point = pnl.Location;
             x = xtemp = point.X - 490;
-            y = point.Y - 20;
+            y = point.Y - 60;
 
             for (int i = 0; i < 22; i++)
             {
@@ -224,8 +253,7 @@ namespace Tetris
                 }
             }
             point = panel.Location;
-            x = point.X - 20;
-            y = point.Y + 85;
+            y = point.Y + 55;
             for (int i = 4; i < Row1; i++)
             {
                 y += 30;
@@ -328,7 +356,7 @@ namespace Tetris
             }
             point = pnl.Location;
             x = xtemp = point.X - 480;
-            y = point.Y + 85;
+            y = point.Y + 55;
             for (int i = 4; i < 22; i++)
             {
                 y += 30;

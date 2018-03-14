@@ -31,7 +31,6 @@ namespace Tetris
         }
 
         //2. Khoi tao Block
-
         public Block CreatBlock()
         {
             Block block = new Block();
@@ -85,6 +84,7 @@ namespace Tetris
                 }
             }
         }
+
         // Update index for board 
         public void DrawBlockInMap(Player player, Block block)
         {
@@ -145,7 +145,7 @@ namespace Tetris
             else
             {
                 for (int i = 4; i < board.Row1; i++) // Bắt đầu từ 4 để không bị mất ở ô hiện trước panel 2
-                                                     //4 dòng đầu để hiện trước
+                                                    //4 dòng đầu để hiện trước
                 {
                     for (int j = 0; j < board.Column1; j++)
                     {
@@ -348,8 +348,6 @@ namespace Tetris
         }
 
         //WIN LOSEEEEE
-
-
         public void UpdateMap(Player player, int row)
         {
             if (player.Name == "Player_Server")
@@ -382,6 +380,7 @@ namespace Tetris
             }
 
         }
+        //
         public int[,] getMap(Player player)
         {
             int[,] arr = new int[22, 10];
@@ -420,7 +419,7 @@ namespace Tetris
             {
                 int i = block.Row1 - 1;
                 if (block.IBoard <= 3) return -1;
-                if (info.Speed <= 100) return 0;
+                if (info.Speed < 100) return 0;
                 int count, j, score;
                 do
                 {

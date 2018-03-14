@@ -41,11 +41,9 @@ namespace Tetris
             Thread acceptClient = new Thread(() =>
             {
                 client = server.Accept();
-
             });
             acceptClient.IsBackground = true;
             acceptClient.Start();
-
         }
         #endregion
 
@@ -127,10 +125,6 @@ namespace Tetris
             return output;
         }
 
-        public void Close()
-        {
-            client.Close();
-        }
         #endregion
     }
 }

@@ -5,20 +5,51 @@ namespace Tetris
 {
     public class Block
     {
-        ///Attribute
+        /// <summary>
+        /// Khai báo biến
+        /// </summary>
+        #region
         private int Row, Column;
+
+        public int Column1
+        {
+            get { return Column; }
+            set { Column = value; }
+        }
+
+        public int Row1
+        {
+            get { return Row; }
+            set { Row = value; }
+        }
         int iBoard, jBoard;
+
+        public int JBoard
+        {
+            get { return jBoard; }
+            set { jBoard = value; }
+        }
+
+        public int IBoard
+        {
+            get { return iBoard; }
+            set { iBoard = value; }
+        }
         private int[,] arr;
+
+        public int[,] Arr
+        {
+            get { return arr; }
+            set { arr = value; }
+        }
         private Color color;
 
-        ///Property
-        public Color Color { get => color; set => color = value; }
-        public int[,] Arr { get => arr; set => arr = value; }
-        public int Row1 { get => Row; set => Row = value; }
-        public int Column1 { get => Column; set => Column = value; }
-        public int IBoard { get => iBoard; set => iBoard = value; }
-        public int JBoard { get => jBoard; set => jBoard = value; }
-
+        public Color Color
+        {
+            get { return color; }
+            set { color = value; }
+        }
+        #endregion
         ///Set Color Block
 
         public Color setColor()

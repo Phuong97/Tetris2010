@@ -10,7 +10,7 @@ namespace Tetris
         public Form1()
         {
             InitializeComponent();
-            Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = false;// giúp phân luồng thread k bị xung đột ạ.
             action = new Action();
             info = new Info();
             board = new Board();
@@ -25,16 +25,203 @@ namespace Tetris
         Player player;
         Board board;
         SocketManager socket;
-
+        int minutes;
+        int second;
         private void Form1_Load(object sender, EventArgs e)
         {
             KeyPreview = true;
+            pnlLogin.Visible = true; //hiện panel connect
+
+            btnModeClassic.Visible = false;
+            btnModeTime.Visible = false;
+            pnlClient.Visible = false;
+            pnlServer.Visible = false;
+            pnlServerInClient.Visible = false;
+            pnlClientInServer.Visible = false;
+            lbWatch.Visible = false;
+            pictureBox1.Visible = false;
+            minutes = 4; second = 60;
         }
+
+        /// <summary>
+        /// Load sẵn địa chỉ IP máy.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
+            if (string.IsNullOrEmpty(txtIP.Text))
+            {
+                txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
+            }
+        }
+
+        /// <summary>
+        /// Load xong sẽ hiện bảng nhập IP và btn connect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)//button Connect
+        {
+            socket.IP = txtIP.Text.Trim();
+            if (!socket.ConnectServer())
+            {
+                socket.CreateServer();
+                pnlLogin.Visible = false;
+                socket.isServer = true;
+            }
+            else
+            {
+                pnlLogin.Visible = false;
+                socket.isServer = false;
+                Listen();
+            }
+
+            if (socket.isServer == true) // nếu là server thì cho chọn chế độ
+            {
+                btnModeClassic.Visible = true;
+                btnModeTime.Visible = true;
+                lbName.Text = "Player Server";
+            }
+            else // client thì đợi
+            {
+                lb3sPlay.Text = "Đợi Server Chọn chế độ";
+                lbName.Text = "Player Client";
+            }
+            player = action.setPlayer(socket.isServer, pnlServer, pnlClient);
+            //xét người chơi là server hay client
+        }
+
+        /// <summary>
+        /// Chọn chế độ chơi
+        /// 1.Time Mode
+        /// 2.Classic Mode 
+        /// </summary>
+
+        #region
+        public void ModeTime()
+        {
+            lbWatch.Visible = true;
+            pnlServer.Visible = true;
+            pnlClient.Visible = true;
+            if (player.Name == "Player_Server")
+            {
+                pnlServerInClient.Visible = false;
+                pnlClientInServer.Visible = true;
+            }
+            else
+            {
+                lb3sPlay.Visible = false;
+                pnlServerInClient.Visible = true;
+                pnlClientInServer.Visible = false;
+
+            }
+            timerBegin.Enabled = true;/// Khởi động đếm ngc 3s r play
+        }
+        private void btnModeTime_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ModeTime();
+                socket.Send(new SocketData((int)SocketCommand.MODETIME, null, null, "", 0, 0, 0));
+                Listen();
+            }
+            catch
+            {
+                MessageBox.Show("Chưa có client kết nối đến.");
+                timerBegin.Enabled = false;
+                this.Close();
+                return;
+            }
+        }
+
+        public void ModeClassic()
+        {
+            pnlServer.Visible = true;
+            pnlClient.Visible = true;
+            if (player.Name == "Player_Server")
+            {
+                pnlServerInClient.Visible = false;
+                pnlClientInServer.Visible = true;
+            }
+            else
+            {
+                lb3sPlay.Visible = false;
+                pnlServerInClient.Visible = true;
+                pnlClientInServer.Visible = false;
+
+            }
+            timerBegin.Enabled = true;
+        }
+        private void btnModeClassic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ModeClassic();
+                socket.Send(new SocketData((int)SocketCommand.MODECLASSIC, null, null, "", 0, 0, 0));
+                Listen();
+            }
+            catch
+            {
+                MessageBox.Show("Chưa có client kết nối đến.");
+                timerBegin.Enabled = false;
+                this.Close();
+                return;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Sau khi server chọn Mode sẽ gửi đến cho client
+        /// </summary>
+        public void AfterClickMode()
+        {
+            if (player.Name == "Player_Server")
+            {
+                action.Init(pnlServer);// Panel server
+                pnlClient.BackColor = Color.Gray;
+                lbInfoClient.Text = "Chờ thông tin từ Client";
+            }
+            else
+            {
+                action.Init2(pnlClient); //Panel client
+                pnlServer.BackColor = Color.Gray;
+                lbInfoServer.Text = "Chờ thông tin từ Server";//pnael nhận dữ liệu
+            }
+        }
+
+        /// <summary>
+        /// Hàm count down 3s
+        /// </summary>
+        int count = 4;
+        private void timerBegin_Tick(object sender, EventArgs e)
+        {
+            lb3sPlay.Visible = true;
+            count--;
+            lb3sPlay.Text = count.ToString();
+            if (count == 0)
+            {
+                lb3sPlay.Visible = false;
+                btnModeClassic.Visible = false;
+                btnModeClassic.Enabled = false;
+                btnModeTime.Enabled = false;
+                btnModeTime.Visible = false;
+                timerBegin.Enabled = false;
+                AfterClickMode(); // show 2 panel chơi
+                PlayGame(player); // Khởi tạo khối gạch
+                timer1.Enabled = true;//timer làm rơi khối gạch
+                timerWatch.Enabled = true;// bắt đầu đếm giờ
+                menuStrip1.Visible = true;// hiện menu
+            }
+        }
+
         public void PlayGame(Player player)
         {
-            currentBlock = action.CreatBlock();
-            nextBlock = action.CreatBlock();
-            action.DrawBlock(player, currentBlock);
+            currentBlock = action.CreatBlock(); //khởi tạo block
+            nextBlock = action.CreatBlock(); //tạo block tiếp theo
+            action.DrawBlock(player, currentBlock); //vẽ
             action.DrawBlockNext(player, nextBlock);
             action.setInfo(info, timer1.Interval);
             DrawInfo(player);
@@ -88,9 +275,29 @@ namespace Tetris
                 label12.Text = info.Speed.ToString();
                 label10.Text = info.Level.ToString();
             }
-            //Listen();
         }
 
+        public void DrawInfoSend(Player player, SocketData data)
+        {
+            if (player.Name == "Player_Server")
+            {
+                label11.Text = data.Score.ToString();
+                label12.Text = data.Speed.ToString();
+                label10.Text = data.Level.ToString();
+            }
+            else
+            {
+                label1.Text = data.Score.ToString();
+                label2.Text = data.Speed.ToString();
+                label3.Text = data.Level.ToString();
+            }
+        }
+
+        /// <summary>
+        /// hàm chạy chính của chương trình
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             action.DeleteBlock(player, currentBlock);
@@ -116,7 +323,7 @@ namespace Tetris
             }
         }
 
-        public void SendData()
+        public void SendData()// Send vị trí sau mỗi lần xuống cuối
         {
             try
             {
@@ -132,21 +339,7 @@ namespace Tetris
             }
         }
 
-        public void DrawInfoSend(Player player, SocketData data)
-        {
-            if (player.Name == "Player_Server")
-            {
-                label11.Text = data.Score.ToString();
-                label12.Text = data.Speed.ToString();
-                label10.Text = data.Level.ToString();
-            }
-            else
-            {
-                label1.Text = data.Score.ToString();
-                label2.Text = data.Speed.ToString();
-                label3.Text = data.Level.ToString();
-            }
-        }
+
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -173,49 +366,92 @@ namespace Tetris
         /// <param name="e"></param>
         /// 
 
-        private void button1_Click(object sender, EventArgs e)//button Connect
-        {
-            socket.IP = txtIP.Text.Trim();
-            if (!socket.ConnectServer())
-            {
-                socket.CreateServer();
-                pnlServer.Visible = true;
-                pnlClient.Visible = true;
-                pnlServerInClient.Visible = false;
-                pnlLogin.Visible = false;
-                socket.isServer = true;
-            }
-            else
-            {
-                pnlServer.Visible = true;
-                pnlClient.Visible = true;
-                pnlClientInServer.Visible = false;
-                pnlLogin.Visible = false;
-                socket.isServer = false;
-                Listen();
-            }
 
-            if (socket.isServer == true)
-            {
-                lbName.Text = "Player Server";
-                action.Init(pnlServer);
-                // board.ShowBoard2(pnlClient);
-                pnlClient.BackColor = Color.Gray;
-                lbInfoClient.Text = "Chờ thông tin từ Client";
-            }
-            else
-            {
-                lbName.Text = "Player Client";
-                action.Init2(pnlClient);
-                pnlServer.BackColor = Color.Gray;
-                lbInfoServer.Text = "Chờ thông tin từ Server";
-                // board.ShowBoard1(pnlServer);
-            }
-            player = action.setPlayer(socket.isServer, pnlServer, pnlClient);
-            PlayGame(player);
-            timer1.Enabled = true;
+        public void Pause()
+        {
+            timer1.Enabled = !timer1.Enabled;
+            timerWatch.Enabled = !timerWatch.Enabled;
         }
 
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pause();
+            socket.Send(new SocketData((int)SocketCommand.PAUSE, null, null, "", 0, 0, 0));
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        public void NewGame()
+        {
+            int[,] arr = new int[22, 10];
+            timer1.Interval = 900;
+            timer1.Enabled = false;
+            DrawInfo(player);
+            action.ResetBoard(player);
+            Thread.Sleep(1000);
+            PlayGame(player);
+            timer1.Enabled = true;
+            minutes = 4;
+            second = 60;
+            if (player.Name == "Player_Server")
+            {
+                pnlClient.BackColor = Color.Gray;
+                action.UpdatePanelAfterReceive("Player_Client", arr, pnlServer, pnlClient);
+                lbInfoClient.Show();
+            }
+            else
+            {
+                pnlServer.BackColor = Color.Gray;
+                action.UpdatePanelAfterReceive("Player_Server", arr, pnlServer, pnlClient);
+                lbInfoServer.Show();
+            }
+
+        }
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame();
+            socket.Send(new SocketData((int)SocketCommand.NEW_GAME, null, null, "", 0, 0, 0));
+        }
+
+        /// <summary>
+        /// Đồng hồ đếm 5p
+        /// </summary>
+        #region
+        //Hàm chạy count time
+
+        
+        private void timerWatch_Tick(object sender, EventArgs e)
+        {
+            string b1 = ""; // biến s gán khi < 10 hiện 2 số cho đẹp
+
+            second--;
+            if (second == 0)
+            {
+                minutes--;
+                second = 59;
+            }
+            if (minutes == 0 && second == 01)
+            {
+                timerWatch.Enabled = false;
+                timer1.Enabled = false;
+                FiveMinutes();//Hàm xét thắng thua
+                second = 0;
+                
+            }
+            if (second < 10)
+            {
+                b1 = "0" + second.ToString();
+            }
+            else
+            {
+                b1 = second.ToString();
+            }
+            lbWatch.Text = "0" + minutes.ToString() + " : " + b1.ToString();
+        }
+        #endregion
+        //Lắng nghe nhận dữ liệu để xử lý
         public void Listen()
         {
             Thread listenThread = new Thread(() =>
@@ -234,6 +470,7 @@ namespace Tetris
             listenThread.Start();
         }
 
+        //Hàm xử lý bên nhận
         public void ProcessData(SocketData data)
         {
             switch (data.Command)
@@ -251,13 +488,13 @@ namespace Tetris
                 case (int)SocketCommand.NEW_GAME:
                     this.Invoke((MethodInvoker)(() =>
                     {
-                         NewGame();
+                        NewGame();
                     }));
                     break;
                 case (int)SocketCommand.PAUSE:
                     this.Invoke((MethodInvoker)(() =>
                     {
-                    Pause();
+                        Pause();
                     }));
                     break;
                 case (int)SocketCommand.QUIT:
@@ -268,61 +505,59 @@ namespace Tetris
                     timer1.Enabled = false;
                     MessageBox.Show("Người chơi cùng đã thua .Kết thúc game.");
                     break;
+                case (int)SocketCommand.MODETIME:
+                    this.Invoke((MethodInvoker)(() =>
+                    {   
+                        ModeTime();
+                    }));
+                    break;
+                case (int)SocketCommand.MODECLASSIC:
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        ModeClassic();
+                    }));
+                    break;
             }
             Listen();
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
+        ///Xét thắng thua trong 5p
+         public void FiveMinutes()
         {
-            txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
-            if (string.IsNullOrEmpty(txtIP.Text))
+            //score
+            int scoreServer = Convert.ToInt32(label1.Text);
+            int scoreClient = Convert.ToInt32(label11.Text);
+            //level
+            int levelServer = Convert.ToInt32(label3.Text);
+            int levelClient = Convert.ToInt32(label10.Text);
+
+            if (scoreServer > scoreClient && levelServer == levelClient)
             {
-                txtIP.Text = socket.GetLocalIPv4(System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211);
+                MessageBox.Show("Server Thắng");
+                timer1.Enabled = false;
             }
-        }
-        public void Pause()
-        {
-            timer1.Enabled = !timer1.Enabled;
-        }
-
-        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Pause();
-            socket.Send(new SocketData((int)SocketCommand.PAUSE, null, null, "", 0, 0, 0));
-        }
-
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-        public void NewGame()
-        {
-            int[,] arr = new int[22, 10];
-            timer1.Interval = 900;
-            timer1.Enabled = false;
-            DrawInfo(player);  
-            action.ResetBoard(player);
-            Thread.Sleep(1000);
-            PlayGame(player);
-            timer1.Enabled = true;
-            if(player.Name == "Player_Server")
+            else if (scoreServer < scoreClient && levelServer == levelClient)
             {
-                pnlClient.BackColor = Color.Gray;
-                action.UpdatePanelAfterReceive("Player_Client", arr, pnlServer, pnlClient);
-                lbInfoClient.Show();
+                MessageBox.Show("Client Thắng");
+                timer1.Enabled = false;
+            }
+            else if (levelServer > levelClient)
+            {
+                MessageBox.Show("Server Thắng");
+                timer1.Enabled = false;
+            }
+            else if (levelServer < levelClient)
+            {
+                MessageBox.Show("Client Thắng");
+                timer1.Enabled = false;
             }
             else
             {
-                pnlServer.BackColor = Color.Gray;
-                action.UpdatePanelAfterReceive("Player_Server", arr, pnlServer, pnlClient);
-                lbInfoServer.Show();
+                MessageBox.Show("Hòa");
+                timer1.Enabled = false;
             }
-           
         }
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NewGame();
-            socket.Send(new SocketData((int)SocketCommand.NEW_GAME, null, null, "", 0, 0, 0));
-        }
+
+
     }
 }

@@ -40,8 +40,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pnlLogin = new System.Windows.Forms.Panel();
+            this.txtIP = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
+            this.btnModeClassic = new System.Windows.Forms.Button();
+            this.btnModeTime = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
@@ -53,9 +58,6 @@
             this.pnlClient = new System.Windows.Forms.Panel();
             this.pnlClientInServer = new System.Windows.Forms.Panel();
             this.lbInfoClient = new System.Windows.Forms.Label();
-            this.pnlLogin = new System.Windows.Forms.Panel();
-            this.txtIP = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.lbName = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -63,11 +65,15 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerWatch = new System.Windows.Forms.Timer(this.components);
+            this.timerBegin = new System.Windows.Forms.Timer(this.components);
+            this.lbWatch = new System.Windows.Forms.Label();
+            this.lb3sPlay = new System.Windows.Forms.Label();
             this.pnlServer.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.pnlLogin.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlClient.SuspendLayout();
-            this.pnlLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -78,9 +84,9 @@
             this.pnlServer.Controls.Add(this.pnlServerInClient);
             this.pnlServer.Controls.Add(this.lbInfoServer);
             this.pnlServer.Controls.Add(this.panel3);
-            this.pnlServer.Location = new System.Drawing.Point(13, 57);
+            this.pnlServer.Location = new System.Drawing.Point(12, 64);
             this.pnlServer.Name = "pnlServer";
-            this.pnlServer.Size = new System.Drawing.Size(425, 888);
+            this.pnlServer.Size = new System.Drawing.Size(425, 850);
             this.pnlServer.TabIndex = 0;
             this.pnlServer.Visible = false;
             // 
@@ -171,10 +177,32 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "label2";
             // 
-            // timer1
+            // pnlLogin
             // 
-            this.timer1.Interval = 900;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.pnlLogin.Controls.Add(this.txtIP);
+            this.pnlLogin.Controls.Add(this.button1);
+            this.pnlLogin.Controls.Add(this.label13);
+            this.pnlLogin.Location = new System.Drawing.Point(443, 178);
+            this.pnlLogin.Name = "pnlLogin";
+            this.pnlLogin.Size = new System.Drawing.Size(200, 149);
+            this.pnlLogin.TabIndex = 7;
+            // 
+            // txtIP
+            // 
+            this.txtIP.Location = new System.Drawing.Point(17, 40);
+            this.txtIP.Name = "txtIP";
+            this.txtIP.Size = new System.Drawing.Size(165, 22);
+            this.txtIP.TabIndex = 7;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(36, 97);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(111, 28);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "CONNECT";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label13
             // 
@@ -184,6 +212,33 @@
             this.label13.Size = new System.Drawing.Size(20, 17);
             this.label13.TabIndex = 4;
             this.label13.Text = "IP";
+            // 
+            // btnModeClassic
+            // 
+            this.btnModeClassic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModeClassic.Location = new System.Drawing.Point(460, 451);
+            this.btnModeClassic.Name = "btnModeClassic";
+            this.btnModeClassic.Size = new System.Drawing.Size(160, 52);
+            this.btnModeClassic.TabIndex = 9;
+            this.btnModeClassic.Text = "CLASSIC MODE";
+            this.btnModeClassic.UseVisualStyleBackColor = true;
+            this.btnModeClassic.Click += new System.EventHandler(this.btnModeClassic_Click);
+            // 
+            // btnModeTime
+            // 
+            this.btnModeTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModeTime.Location = new System.Drawing.Point(460, 361);
+            this.btnModeTime.Name = "btnModeTime";
+            this.btnModeTime.Size = new System.Drawing.Size(160, 52);
+            this.btnModeTime.TabIndex = 8;
+            this.btnModeTime.Text = "TIME MODE";
+            this.btnModeTime.UseVisualStyleBackColor = true;
+            this.btnModeTime.Click += new System.EventHandler(this.btnModeTime_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 900;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // panel1
             // 
@@ -267,9 +322,9 @@
             this.pnlClient.Controls.Add(this.pnlClientInServer);
             this.pnlClient.Controls.Add(this.lbInfoClient);
             this.pnlClient.Controls.Add(this.panel2);
-            this.pnlClient.Location = new System.Drawing.Point(650, 57);
+            this.pnlClient.Location = new System.Drawing.Point(650, 53);
             this.pnlClient.Name = "pnlClient";
-            this.pnlClient.Size = new System.Drawing.Size(430, 888);
+            this.pnlClient.Size = new System.Drawing.Size(430, 861);
             this.pnlClient.TabIndex = 6;
             this.pnlClient.Visible = false;
             // 
@@ -292,38 +347,11 @@
             this.lbInfoClient.TabIndex = 6;
             this.lbInfoClient.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pnlLogin
-            // 
-            this.pnlLogin.Controls.Add(this.txtIP);
-            this.pnlLogin.Controls.Add(this.button1);
-            this.pnlLogin.Controls.Add(this.label13);
-            this.pnlLogin.Location = new System.Drawing.Point(444, 236);
-            this.pnlLogin.Name = "pnlLogin";
-            this.pnlLogin.Size = new System.Drawing.Size(200, 149);
-            this.pnlLogin.TabIndex = 7;
-            // 
-            // txtIP
-            // 
-            this.txtIP.Location = new System.Drawing.Point(17, 40);
-            this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(165, 22);
-            this.txtIP.TabIndex = 7;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(36, 97);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 28);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "CONNECT";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // lbName
             // 
             this.lbName.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lbName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbName.Location = new System.Drawing.Point(461, 16);
+            this.lbName.Location = new System.Drawing.Point(455, 57);
             this.lbName.Name = "lbName";
             this.lbName.Size = new System.Drawing.Size(165, 41);
             this.lbName.TabIndex = 8;
@@ -333,7 +361,7 @@
             // 
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(439, 410);
+            this.pictureBox1.Location = new System.Drawing.Point(443, 540);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(205, 346);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -350,6 +378,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(1097, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Visible = false;
             // 
             // menuToolStripMenuItem
             // 
@@ -365,7 +394,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -373,7 +402,7 @@
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -381,17 +410,51 @@
             // 
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             this.pauseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.pauseToolStripMenuItem.Text = "Pause";
             this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
+            // timerWatch
+            // 
+            this.timerWatch.Tick += new System.EventHandler(this.timerWatch_Tick);
+            // 
+            // timerBegin
+            // 
+            this.timerBegin.Interval = 1000;
+            this.timerBegin.Tick += new System.EventHandler(this.timerBegin_Tick);
+            // 
+            // lbWatch
+            // 
+            this.lbWatch.AutoSize = true;
+            this.lbWatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbWatch.Location = new System.Drawing.Point(508, 111);
+            this.lbWatch.Name = "lbWatch";
+            this.lbWatch.Size = new System.Drawing.Size(62, 25);
+            this.lbWatch.TabIndex = 11;
+            this.lbWatch.Text = "04:59";
+            this.lbWatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lb3sPlay
+            // 
+            this.lb3sPlay.AutoSize = true;
+            this.lb3sPlay.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lb3sPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 41F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb3sPlay.Location = new System.Drawing.Point(200, 388);
+            this.lb3sPlay.Name = "lb3sPlay";
+            this.lb3sPlay.Size = new System.Drawing.Size(0, 79);
+            this.lb3sPlay.TabIndex = 9;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1097, 985);
+            this.ClientSize = new System.Drawing.Size(1097, 1055);
+            this.Controls.Add(this.lb3sPlay);
+            this.Controls.Add(this.btnModeClassic);
+            this.Controls.Add(this.lbWatch);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnModeTime);
             this.Controls.Add(this.lbName);
             this.Controls.Add(this.pnlLogin);
             this.Controls.Add(this.pnlClient);
@@ -400,8 +463,8 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
@@ -410,12 +473,12 @@
             this.pnlServer.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.pnlLogin.ResumeLayout(false);
+            this.pnlLogin.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.pnlClient.ResumeLayout(false);
             this.pnlClient.PerformLayout();
-            this.pnlLogin.ResumeLayout(false);
-            this.pnlLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -459,6 +522,12 @@
         private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
         private System.Windows.Forms.Panel pnlServerInClient;
         private System.Windows.Forms.Panel pnlClientInServer;
+        private System.Windows.Forms.Timer timerWatch;
+        private System.Windows.Forms.Timer timerBegin;
+        private System.Windows.Forms.Label lbWatch;
+        private System.Windows.Forms.Button btnModeClassic;
+        private System.Windows.Forms.Button btnModeTime;
+        private System.Windows.Forms.Label lb3sPlay;
     }
 }
 

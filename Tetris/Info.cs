@@ -2,9 +2,31 @@
 {
     public class Info
     {
+        #region
+        /// <summary>
+        /// Khai báo biến
+        /// </summary>
         int score;
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
         int level;
+
+        public int Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
         int speed;
+
+        public int Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
+        #endregion
         public Info()
         {
             Score = 0;
@@ -12,9 +34,6 @@
             Speed = 0;
         }
 
-        public int Speed { get => speed; set => speed = value; }
-        public int Level { get => level; set => level = value; }
-        public int Score { get => score; set => score = value; }
 
         public void UpLevel(Info info, int score)
         {

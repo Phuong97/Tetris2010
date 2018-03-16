@@ -18,10 +18,11 @@ namespace Tetris
             this.progressBar1.Increment(1);
             if(progressBar1.Value == progressBar1.Maximum)
             {
-                this.Hide();
+               
                 timer1.Enabled = false;
                 Form1 f = new Form1();
                 f.Show();
+                this.Hide();
             }
         }
     }

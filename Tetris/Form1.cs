@@ -129,10 +129,12 @@ namespace Tetris
             }
             catch
             {
-                MessageBox.Show("Chưa có client kết nối đến.");
                 timerBegin.Enabled = false;
+                timer1.Enabled = false;
+                timerWatch.Enabled = false;
+                MessageBox.Show("Chưa có client kết nối đến."); 
                 this.Close();
-                return;
+              
             }
         }
 
@@ -164,10 +166,11 @@ namespace Tetris
             }
             catch
             {
-                MessageBox.Show("Chưa có client kết nối đến.");
                 timerBegin.Enabled = false;
+                timer1.Enabled = false;
+                timerWatch.Enabled = false;
+                MessageBox.Show("Chưa có client kết nối đến.");
                 this.Close();
-                return;
             }
         }
 

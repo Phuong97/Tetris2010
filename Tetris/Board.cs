@@ -64,7 +64,7 @@ namespace Tetris
             MapPlayClient1 = new int[Row1, Column1];
             MapPlayServer1 = new int[Row1, Column1];
         }
-
+        //Xóa block next 
         public void DeleteNextBlock(Player player)
         {
             if (player.Name == "Player_Server")
@@ -91,7 +91,7 @@ namespace Tetris
             }
         }
 
-
+        //Vẽ blok nexxt
         public void DrawBlockNext(Player player, Block block) // vẽ luôn trên panel hoặc panel mới
         {
             DeleteNextBlock(player);

@@ -5,33 +5,33 @@ namespace Tetris
 {
     public class Action
     {
-        Board board = new Board();
-        Info info = new Info();
-        Player player;
+        Board board = new Board();//để vẽ map và những thứ liên quan
+        Info info = new Info();//thông tin trong quá trình chơi
+        Player player;//set người chơi
         //1. Khoi tao
         public Action()
         {
         }
-        public Player setPlayer(bool isServer, Panel p1, Panel p2)
+        public Player setPlayer(bool isServer, Panel p1, Panel p2)//set người chơi với pnl và name
         {
-            if (isServer == true)
+            if (isServer == true)//biến truyền bên socket iSserver
                 player = new Player("Player_Server", p1);
             else
                 player = new Player("Player_Client", p2);
             return player;
         }
 
-        public void Init(Panel panel)
+        public void Init(Panel panel)//vẽ map server trên pnl server
         {
             board.DrawBoard(panel);
         }
-        public void Init2(Panel pnl)
+        public void Init2(Panel pnl)//vẽ map client trên pnl client
         {
             board.DrawBoard2(pnl);
         }
 
         //2. Khoi tao Block
-        public Block CreatBlock()
+        public Block CreatBlock() //tạo khối gạch
         {
             Block block = new Block();
             block = block.ShapeBlock();
@@ -41,17 +41,19 @@ namespace Tetris
         //Delete block
 
         //Xóa ở phần panel2 mỗi khi tạo cái mới xóa cái cũ
+        //chia làm 2. if server và else cho client
+        //xóa block cũ vẽ block mới sau mỗi lần thay đổi vị trí & hình dạng block
         public void DeleteBlock(Player player, Block block)
         {
             if (player.Name == "Player_Server")
             {
-                for (int i = 0; i < block.Row1; i++)
+                for (int i = 0; i < block.Row1; i++)//duyệt hết dòng
                 {
-                    for (int j = 0; j < block.Column1; j++)
+                    for (int j = 0; j < block.Column1; j++)//duyệt hết cột
                     {
-                        if (block.Arr[i, j] == 1)
+                        if (block.Arr[i, j] == 1)//nếu giá trị block =1
                         {
-                            if ((block.JBoard + j) % 2 == 0)
+                            if ((block.JBoard + j) % 2 == 0) //tô lại màu của  map
                             {
                                 board.MapServer1[i + block.IBoard, j + block.JBoard].BackColor = Color.Silver;
                             }
@@ -86,7 +88,8 @@ namespace Tetris
         }
 
         // Update index for board 
-        public void DrawBlockInMap(Player player, Block block)
+        public void DrawBlockInMap(Player player, Block block) //cập nhập tọa độ giá trị 0 1 
+            //của block lên map // 2 trường hợp : server và client
         {
             int[,] arr = block.Arr;
             int Iboard = block.IBoard;
@@ -381,7 +384,7 @@ namespace Tetris
 
         }
         //
-        public int[,] getMap(Player player)
+        public int[,] getMap(Player player)//lấy các giá trị 1 0 hiện tại của map
         {
             int[,] arr = new int[22, 10];
             if (player.Name == "Player_Server")
@@ -413,7 +416,7 @@ namespace Tetris
                 return arr;
             }
         }
-        public int Check(Player player, Block block, Info info)
+        public int Check(Player player, Block block, Info info)//kiểm tra để có điểm 
         {
             if (player.Name == "Player_Server")
             {
@@ -476,16 +479,24 @@ namespace Tetris
         }
 
         //DRAW AFTER SENDDATA
+        /// <summary>
+        ///  vẽ map của đối thủ lên màn hình của mình sau khi nhận dữ liệu
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="arr"></param>
+        /// <param name="pnls"></param>
+        /// <param name="pnlc"></param>
         public void UpdatePanelAfterReceive(string name, int[,] arr, Panel pnls, Panel pnlc)
         {
             board.UpdatePanelAfterReceive(name, arr, pnls, pnlc);
         }
 
+        // vẽ block đang di chuyển của đối thủ
         public void DrawBlockSend(string playerName, int[,] arr, Panel pnls, Panel pnlc)
         {
             board.DrawBlockSend(playerName, arr, pnls, pnlc);
         }
-
+        //Làm mới bàn cờ sau mỗi lần new
         public void ResetBoard(Player player)
         {
             board.ResetBoard(player);

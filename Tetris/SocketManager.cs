@@ -44,6 +44,12 @@ namespace Tetris
             });
             acceptClient.IsBackground = true;
             acceptClient.Start();
+
+            //giống
+            //ThreadStart s = new ThreadStart(CreateServer);
+            //Thread accept = new Thread(s);
+
+              
         }
         #endregion
 

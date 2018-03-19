@@ -69,6 +69,10 @@
             this.timerBegin = new System.Windows.Forms.Timer(this.components);
             this.lbWatch = new System.Windows.Forms.Label();
             this.lb3sPlay = new System.Windows.Forms.Label();
+            this.txtNhap = new System.Windows.Forms.TextBox();
+            this.btnSendMessenger = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.lboxMessenger = new System.Windows.Forms.ListBox();
             this.pnlServer.SuspendLayout();
             this.panel3.SuspendLayout();
             this.pnlLogin.SuspendLayout();
@@ -155,27 +159,27 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(107, 99);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 17);
+            this.label3.Size = new System.Drawing.Size(16, 17);
             this.label3.TabIndex = 3;
-            this.label3.Text = "label3";
+            this.label3.Text = "0";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(107, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.Size = new System.Drawing.Size(16, 17);
             this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
+            this.label1.Text = "0";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(107, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 17);
+            this.label2.Size = new System.Drawing.Size(32, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
+            this.label2.Text = "900";
             // 
             // pnlLogin
             // 
@@ -294,27 +298,27 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(107, 99);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(54, 17);
+            this.label10.Size = new System.Drawing.Size(16, 17);
             this.label10.TabIndex = 3;
-            this.label10.Text = "label10";
+            this.label10.Text = "0";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(107, 15);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(54, 17);
+            this.label11.Size = new System.Drawing.Size(16, 17);
             this.label11.TabIndex = 1;
-            this.label11.Text = "label11";
+            this.label11.Text = "0";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(107, 60);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(54, 17);
+            this.label12.Size = new System.Drawing.Size(32, 17);
             this.label12.TabIndex = 2;
-            this.label12.Text = "label12";
+            this.label12.Text = "900";
             // 
             // pnlClient
             // 
@@ -416,6 +420,7 @@
             // 
             // timerWatch
             // 
+            this.timerWatch.Interval = 1000;
             this.timerWatch.Tick += new System.EventHandler(this.timerWatch_Tick);
             // 
             // timerBegin
@@ -444,12 +449,53 @@
             this.lb3sPlay.Size = new System.Drawing.Size(0, 79);
             this.lb3sPlay.TabIndex = 9;
             // 
+            // txtNhap
+            // 
+            this.txtNhap.Location = new System.Drawing.Point(1087, 577);
+            this.txtNhap.Multiline = true;
+            this.txtNhap.Name = "txtNhap";
+            this.txtNhap.Size = new System.Drawing.Size(299, 58);
+            this.txtNhap.TabIndex = 13;
+            this.txtNhap.Text = "Nhập tin nhắn";
+            // 
+            // btnSendMessenger
+            // 
+            this.btnSendMessenger.Location = new System.Drawing.Point(1194, 652);
+            this.btnSendMessenger.Name = "btnSendMessenger";
+            this.btnSendMessenger.Size = new System.Drawing.Size(83, 36);
+            this.btnSendMessenger.TabIndex = 14;
+            this.btnSendMessenger.Text = "Send";
+            this.btnSendMessenger.UseVisualStyleBackColor = true;
+            this.btnSendMessenger.Click += new System.EventHandler(this.btnSendMessenger_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1087, 85);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(45, 17);
+            this.label14.TabIndex = 15;
+            this.label14.Text = "CHAT";
+            // 
+            // lboxMessenger
+            // 
+            this.lboxMessenger.FormattingEnabled = true;
+            this.lboxMessenger.ItemHeight = 16;
+            this.lboxMessenger.Location = new System.Drawing.Point(1087, 119);
+            this.lboxMessenger.Name = "lboxMessenger";
+            this.lboxMessenger.Size = new System.Drawing.Size(299, 436);
+            this.lboxMessenger.TabIndex = 16;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1097, 1055);
+            this.ClientSize = new System.Drawing.Size(1398, 1055);
+            this.Controls.Add(this.lboxMessenger);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.btnSendMessenger);
+            this.Controls.Add(this.txtNhap);
             this.Controls.Add(this.lb3sPlay);
             this.Controls.Add(this.btnModeClassic);
             this.Controls.Add(this.lbWatch);
@@ -528,6 +574,10 @@
         private System.Windows.Forms.Button btnModeClassic;
         private System.Windows.Forms.Button btnModeTime;
         private System.Windows.Forms.Label lb3sPlay;
+        private System.Windows.Forms.TextBox txtNhap;
+        private System.Windows.Forms.Button btnSendMessenger;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ListBox lboxMessenger;
     }
 }
 

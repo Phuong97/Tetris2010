@@ -14,7 +14,7 @@ namespace Tetris
             SocketManager socket = new SocketManager();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmLogin());
+            Application.Run(new Form1());
         }
     }
 }

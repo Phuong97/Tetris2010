@@ -48,7 +48,14 @@ namespace Tetris
             get { return command; }
             set { command = value; }
         }
-        public SocketData(int command, int[,] board, int[,] block, string name, int level, int speed, int score)//
+        private string messenger;
+        public string Messenger
+        {
+            get { return messenger; }
+            set { messenger = value; }
+        }
+
+        public SocketData(int command, int[,] board, int[,] block, string name, int level, int speed, int score,string messenger)//
         {
             this.Command = command;
             this.Board = board;
@@ -57,6 +64,7 @@ namespace Tetris
             this.Level = level;
             this.Score = score;
             this.Speed = speed;
+            this.messenger = messenger;
         }
 
     }
@@ -68,6 +76,7 @@ namespace Tetris
         NEW_GAME,
         PAUSE,
         QUIT,
-        END_GAME
+        END_GAME,
+        MESSENGER
     }
 }

@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 10
+VisualStudioVersion = 14.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris", "Tetris\Tetris.csproj", "{9AE5D709-DE69-405F-B6A1-157EA9E6C269}"
 EndProject

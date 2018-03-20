@@ -231,8 +231,8 @@ namespace Tetris
                 AfterClickMode(); // show 2 panel chơi
                 PlayGame(player); // Khởi tạo khối gạch
                 timer1.Enabled = true;//timer làm rơi khối gạch
-                if(TimeMode == true)
-                timerWatch.Enabled = true;// bắt đầu đếm giờ
+                if (TimeMode == true)
+                    timerWatch.Enabled = true;// bắt đầu đếm giờ
                 menuStrip1.Visible = true;// hiện menu
                 pictureBox1.Visible = true;
             }
@@ -329,9 +329,10 @@ namespace Tetris
                 action.DrawBlockNext(player, nextnextBlock);
                 action.DrawBlockInMap(player, currentBlock);
                 int kq = action.Check(player, currentBlock, info);
-                if (kq == 0 || kq == -1)
+                if (kq == 0 || kq == -1)// nếu thua
                 {
                     timer1.Enabled = false;
+                    timerWatch.Enabled = false;
                     socket.Send(new SocketData((int)SocketCommand.END_GAME, null, null, "", 0, 0, 0, ""));
                 }
                 DrawInfo(player);
@@ -389,8 +390,21 @@ namespace Tetris
 
         public void Pause()
         {
+            string messenger;
+            if (pauseToolStripMenuItem.Text == "Pause")
+                pauseToolStripMenuItem.Text = "Resume";
+            else
+                pauseToolStripMenuItem.Text = "Pause";
             timer1.Enabled = !timer1.Enabled;
-            timerWatch.Enabled = !timerWatch.Enabled;
+            if (TimeMode == true)
+                timerWatch.Enabled = !timerWatch.Enabled;
+            if (pauseToolStripMenuItem.Text == "Pause")// Ấn nút cái nó đổi r lên f
+                                                       // để ngược lại
+                messenger = "Hệ thống : Resume Game";
+            else
+                messenger = "Hệ thống : Pause Game";
+            socket.Send(new SocketData((int)SocketCommand.MESSENGER, null, null, "", 0, 0, 0, messenger));
+            Messenger(messenger);
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -405,6 +419,9 @@ namespace Tetris
         }
         public void NewGame()
         {
+            String messenger = "Hệ thống : New Game";
+            socket.Send(new SocketData((int)SocketCommand.MESSENGER, null, null, "", 0, 0, 0, messenger));
+            Messenger(messenger);
             int[,] arr = new int[22, 10];
             timer1.Interval = 900;
             timer1.Enabled = false;
@@ -457,7 +474,6 @@ namespace Tetris
                 timer1.Enabled = false;
                 FiveMinutes();//Hàm xét thắng thua
                 second = 0;
-
             }
             if (second < 10)
             {
@@ -522,12 +538,14 @@ namespace Tetris
                     break;
                 case (int)SocketCommand.END_GAME:
                     timer1.Enabled = false;
+                    timerWatch.Enabled = false;
                     MessageBox.Show("Người chơi cùng đã thua .Kết thúc game.");
                     break;
                 case (int)SocketCommand.MODETIME:
                     this.Invoke((MethodInvoker)(() =>
-                    {  
+                    {
                         ModeTime();
+                        timerWatch.Enabled = true;
                     }));
                     break;
                 case (int)SocketCommand.MODECLASSIC:
@@ -560,26 +578,31 @@ namespace Tetris
             {
                 MessageBox.Show("Server Thắng");
                 timer1.Enabled = false;
+                timerWatch.Enabled = false;
             }
             else if (scoreServer < scoreClient && levelServer == levelClient)
             {
                 MessageBox.Show("Client Thắng");
                 timer1.Enabled = false;
+                timerWatch.Enabled = false;
             }
             else if (levelServer > levelClient)
             {
                 MessageBox.Show("Server Thắng");
                 timer1.Enabled = false;
+                timerWatch.Enabled = false;
             }
             else if (levelServer < levelClient)
             {
                 MessageBox.Show("Client Thắng");
                 timer1.Enabled = false;
+                timerWatch.Enabled = false;
             }
             else
             {
                 MessageBox.Show("Hòa");
                 timer1.Enabled = false;
+                timerWatch.Enabled = false;
             }
         }
 
@@ -598,7 +621,7 @@ namespace Tetris
                     messenger = "Server : " + txtNhap.Text;
                 else
                     messenger = "Client : " + txtNhap.Text;
-              
+
                 try
                 {
                     socket.Send(new SocketData((int)SocketCommand.MESSENGER, null, null, "", 0, 0, 0, messenger));
@@ -611,7 +634,7 @@ namespace Tetris
                     timerWatch.Enabled = false;
                     MessageBox.Show("Chưa có client kết nối đến.");
                 }
-                
+
                 Listen();
             }
             txtNhap.Text = "";

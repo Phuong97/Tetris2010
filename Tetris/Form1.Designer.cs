@@ -379,7 +379,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1097, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1398, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.Visible = false;
@@ -457,6 +457,7 @@
             this.txtNhap.Size = new System.Drawing.Size(299, 58);
             this.txtNhap.TabIndex = 13;
             this.txtNhap.Text = "Nhập tin nhắn";
+            this.txtNhap.Visible = false;
             // 
             // btnSendMessenger
             // 
@@ -466,6 +467,7 @@
             this.btnSendMessenger.TabIndex = 14;
             this.btnSendMessenger.Text = "Send";
             this.btnSendMessenger.UseVisualStyleBackColor = true;
+            this.btnSendMessenger.Visible = false;
             this.btnSendMessenger.Click += new System.EventHandler(this.btnSendMessenger_Click);
             // 
             // label14
@@ -485,6 +487,7 @@
             this.lboxMessenger.Name = "lboxMessenger";
             this.lboxMessenger.Size = new System.Drawing.Size(299, 436);
             this.lboxMessenger.TabIndex = 16;
+            this.lboxMessenger.Visible = false;
             // 
             // Form1
             // 

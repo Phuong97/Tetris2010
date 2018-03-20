@@ -52,7 +52,7 @@
             // 
             this.progressBar1.Location = new System.Drawing.Point(0, 313);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(549, 37);
+            this.progressBar1.Size = new System.Drawing.Size(597, 37);
             this.progressBar1.TabIndex = 1;
             // 
             // pictureBox2
